@@ -1,0 +1,32 @@
+# Virtual Environment
+.venv/
+venv/
+ENV/
+env/
+
+# Python Cache & Bytecode
+__pycache__/
+*.py[cod]
+*$py.class
+*.ipynb_checkpoints/
+
+# Datasets and Large Data Files
+data/*.bin
+data/*.arrow
+data/*.parquet
+data/*.raw
+data/*.zip
+!data/.gitkeep
+
+# Model Checkpoints & Weights (>100MB exceeds GitHub limit)
+*.pt
+models/*.pt
+models/*.bin
+models/*.safetensors
+models/tensorboard_logs/
+!models/.gitkeep
+
+# Logs and OS files
+*.log
+.DS_Store
+Thumbs.db

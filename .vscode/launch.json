@@ -1,0 +1,63 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "1. Launch LM Desktop GUI",
+      "type": "debugpy",
+      "request": "launch",
+      "program": "${workspaceFolder}/scripts/gui.py",
+      "console": "integratedTerminal",
+      "justMyCode": true,
+      "cwd": "${workspaceFolder}"
+    },
+    {
+      "name": "2. Run Streaming Inference (CLI)",
+      "type": "debugpy",
+      "request": "launch",
+      "program": "${workspaceFolder}/scripts/inference.py",
+      "args": [
+        "--prompt", "The history of",
+        "--tokens", "50",
+        "--temp", "0.8",
+        "--top_k", "40",
+        "--top_p", "0.9"
+      ],
+      "console": "integratedTerminal",
+      "justMyCode": true,
+      "cwd": "${workspaceFolder}"
+    },
+    {
+      "name": "3. Run Training Loop",
+      "type": "debugpy",
+      "request": "launch",
+      "program": "${workspaceFolder}/scripts/train_loop.py",
+      "args": [
+        "--model_preset", "small",
+        "--epochs", "2",
+        "--eval_interval", "20",
+        "--checkpoint_interval", "50"
+      ],
+      "console": "integratedTerminal",
+      "justMyCode": true,
+      "cwd": "${workspaceFolder}"
+    },
+    {
+      "name": "4. Run Model Summary & Parameter Check",
+      "type": "debugpy",
+      "request": "launch",
+      "program": "${workspaceFolder}/scripts/model_summary.py",
+      "console": "integratedTerminal",
+      "justMyCode": true,
+      "cwd": "${workspaceFolder}"
+    },
+    {
+      "name": "5. Verify Hardware & Environment",
+      "type": "debugpy",
+      "request": "launch",
+      "program": "${workspaceFolder}/scripts/verify_environment.py",
+      "console": "integratedTerminal",
+      "justMyCode": true,
+      "cwd": "${workspaceFolder}"
+    }
+  ]
+}
