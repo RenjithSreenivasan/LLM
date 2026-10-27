@@ -1,6 +1,8 @@
-# Language Model from Scratch (Intel i3 CPU & PyTorch)
+# Language Model from Scratch (PyTorch & Transformer)
 
-A complete project for building, training, and running a Transformer Language Model from scratch using PyTorch, Hugging Face `tokenizers`, `datasets`, and `transformers`, configured for an **Intel Core i3 processor**.
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/RenjithSreenivasan/LLM/blob/main/train_on_colab.ipynb)
+
+A complete project for building, training, and running a Transformer Language Model from scratch using PyTorch, Hugging Face `tokenizers`, `datasets`, and `transformers`. Optimized for both local CPU execution and **Free Cloud GPU Training (Google Colab / Kaggle)**.
 
 ---
 
@@ -37,6 +39,7 @@ LLM/
 │   ├── train.py             # Model training loop with tqdm & loss plotting
 │   ├── generate.py          # Inference / text generation
 │   └── verify_environment.py# Environment and hardware diagnostics
+├── train_on_colab.ipynb     # 1-Click Free Cloud GPU Training Notebook
 ├── launch_gui.bat           # 1-click Windows Batch Desktop GUI launcher
 ├── launch_gui.ps1           # 1-click PowerShell Desktop GUI launcher
 ├── .gitignore
