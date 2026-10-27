@@ -30,7 +30,12 @@ def run_preprocessing_pipeline(max_tokens: int = 1_000_000, output_prefix: str =
 
     # 2. Load dataset
     print("\n[Step 2/4] Loading Wikipedia subset (WikiText-103)...")
-    dataset = load_dataset("wikitext", "wikitext-103-raw-v1", split="train")
+    try:
+        dataset = load_dataset("Salesforce/wikitext", "wikitext-103-raw-v1", split="train")
+    except Exception as e:
+        print(f"Loading via 'Salesforce/wikitext' failed ({e}), trying fallback 'wikitext'...")
+        dataset = load_dataset("wikitext", "wikitext-103-raw-v1", split="train")
+
     total_rows = len(dataset)
     print(f" -> Available raw rows in training corpus: {total_rows:,}")
 

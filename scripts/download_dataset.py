@@ -15,7 +15,11 @@ def download_wikipedia_subset(output_dir: str = "data") -> str:
     print("Downloading / Loading WikiText-103 (Wikipedia subset ~540MB)...")
     print("=" * 60)
     
-    dataset = load_dataset("wikitext", "wikitext-103-raw-v1")
+    try:
+        dataset = load_dataset("Salesforce/wikitext", "wikitext-103-raw-v1")
+    except Exception as e:
+        print(f"Loading via 'Salesforce/wikitext' failed ({e}), trying fallback 'wikitext'...")
+        dataset = load_dataset("wikitext", "wikitext-103-raw-v1")
     
     print(f"Dataset loaded:")
     print(f" - Train examples:      {len(dataset['train']):,}")
