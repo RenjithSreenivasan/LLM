@@ -145,8 +145,8 @@ class LanguageModelGUI:
         ttk.Label(parent, text="Generation Parameters", style="SubHeader.TLabel").pack(anchor="w", pady=(0, 8))
 
         # Temperature
-        self.temp_var = tk.DoubleVar(value=0.8)
-        self.temp_lbl = ttk.Label(parent, text="Temperature: 0.80", style="Panel.TLabel")
+        self.temp_var = tk.DoubleVar(value=0.4)
+        self.temp_lbl = ttk.Label(parent, text="Temperature: 0.40", style="Panel.TLabel")
         self.temp_lbl.pack(anchor="w")
         temp_scale = ttk.Scale(parent, from_=0.0, to=2.0, variable=self.temp_var, command=lambda v: self.temp_lbl.config(text=f"Temperature: {float(v):.2f}"))
         temp_scale.pack(fill=tk.X, pady=(2, 2))
@@ -189,11 +189,13 @@ class LanguageModelGUI:
         ttk.Label(parent, text="Preset Prompts:", style="Panel.TLabel").pack(anchor="w", pady=(0, 4))
         
         presets = [
+            "User: Hello!\nAssistant:",
+            "User: What is artificial intelligence?\nAssistant:",
+            "User: Who made you?\nAssistant:",
+            "User: Can you tell me a joke?\nAssistant:",
+            "User: What is Python?\nAssistant:",
             "Wikipedia is an online",
-            "The history of",
-            "In ancient times, the",
-            "Artificial intelligence is",
-            "The universe consists of"
+            "The history of"
         ]
         self.preset_combo = ttk.Combobox(parent, values=presets, state="readonly", font=("Segoe UI", 9))
         self.preset_combo.pack(fill=tk.X)
@@ -211,13 +213,13 @@ class LanguageModelGUI:
         self.device_badge.pack(side=tk.RIGHT)
 
         # 2. Input Prompt Card
-        ttk.Label(parent, text="Input Prompt:", style="SubHeader.TLabel").pack(anchor="w", pady=(0, 4))
+        ttk.Label(parent, text="Input Prompt (Chatbot / Text):", style="SubHeader.TLabel").pack(anchor="w", pady=(0, 4))
         
         self.prompt_text = tk.Text(parent, height=4, bg=INPUT_BG, fg=TEXT_COLOR, insertbackground=ACCENT_COLOR,
                                    relief="flat", highlightthickness=1, highlightbackground=BORDER_COLOR,
                                    font=("Consolas", 10), padx=8, pady=8)
         self.prompt_text.pack(fill=tk.X, pady=(0, 8))
-        self.prompt_text.insert(tk.END, "Wikipedia is an online")
+        self.prompt_text.insert(tk.END, "User: Hello!\nAssistant:")
 
         # 3. Action Buttons Row
         action_row = tk.Frame(parent, bg=PANEL_BG)
@@ -313,8 +315,8 @@ class LanguageModelGUI:
                 if f.endswith(".pt"):
                     ckpt_files.append(f)
         
-        # Sort so best_model.pt or latest_checkpoint.pt is first
-        priority = ["best_model.pt", "latest_checkpoint.pt", "checkpoint_step_60.pt", "checkpoint_step_30.pt", "model_checkpoint.pt"]
+        # Sort so chatbot_model.pt or best_model.pt is first
+        priority = ["chatbot_model.pt", "best_model.pt", "latest_checkpoint.pt", "checkpoint_step_60.pt", "checkpoint_step_30.pt", "model_checkpoint.pt"]
         sorted_files = []
         for p in priority:
             if p in ckpt_files and p not in sorted_files:
@@ -454,8 +456,10 @@ class LanguageModelGUI:
                 msg_type, content, tok_count, max_toks, speed, elapsed = self.token_queue.get_nowait()
 
                 if msg_type == "token":
-                    self.output_text.insert(tk.END, content, "token_tag")
-                    self.output_text.see(tk.END)
+                    display_chunk = content.replace("<|endoftext|>", "")
+                    if display_chunk:
+                        self.output_text.insert(tk.END, display_chunk, "token_tag")
+                        self.output_text.see(tk.END)
                     self.speed_lbl.config(
                         text=f"Tokens: {tok_count}/{max_toks} | Speed: {speed:.1f} tok/s | Time: {elapsed:.2f}s"
                     )

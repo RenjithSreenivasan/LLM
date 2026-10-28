@@ -15,7 +15,10 @@ class GPT2TokenizerWrapper:
     Special Token: <|endoftext|> (ID: 50256)
     """
     def __init__(self, model_name: str = "gpt2"):
-        self.tokenizer = AutoTokenizer.from_pretrained(model_name)
+        try:
+            self.tokenizer = AutoTokenizer.from_pretrained(model_name, local_files_only=True)
+        except Exception:
+            self.tokenizer = AutoTokenizer.from_pretrained(model_name)
         # In GPT-2, the end-of-text token is typically used as the padding token
         if self.tokenizer.pad_token is None:
             self.tokenizer.pad_token = self.tokenizer.eos_token
